@@ -1,0 +1,22 @@
+# Environment file / secrets
+.env
+.env.*
+
+# Docker local data
+docker/data/
+docker/logs/
+
+# Temporary files
+*.temp
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# VS Code local settings
+.vscode/
+
+# Packet Tracer backups / temporary files
+*.bak
+*.tmp
