@@ -18,6 +18,8 @@ The goal is to enforce least-privilege communication between network segments wh
 
 \## Network Segments
 
+
+
 | VLAN | Name | Subnet | Purpose |
 
 | --- | --- | --- |
@@ -31,6 +33,8 @@ The goal is to enforce least-privilege communication between network segments wh
 | 40 | Repair Quarantine | 10.10.40.0/24 | untrusted customer-owned devices |
 
 | 50 | Servers | 10.10.50.0/24 | Internal business services |
+
+| 55 | Database Servers | 10.10.55.0/24 | Protected backend database services |
 
 | 60 | Security | 10.10.60.0/24 | Security monitoring and management systems |
 
@@ -60,6 +64,7 @@ The goal is to enforce least-privilege communication between network segments wh
 * VLAN 20 - Store/POS
 * VLAN 30 - Repair Services
 * VLAN 50 - Servers
+* VLAN 55 - Database Servers
 
 
 
@@ -244,27 +249,47 @@ This network is expected to generate potentially hostile or suspicious traffic a
 
 
 
-\### Server Network
+\### Application Server Network
 
 
 
-The Server network contains internal application and database services.
+The Application Server network contains internal business application services.
 
 
 
-Access to servers should be limited based on business need.
+Approved client networks may access application services based on business requirements.
 
 
 
-Application servers may be reachable by approved client networks.
+Application servers may communicate with protected backend database services when required.
 
 
 
-Database servers should generally not be directly accessible from ordinary user networks.
+Ordinary client systems should not directly access database services.
 
 
 
-Where possible, clients should access data through approved application services.
+\------------------------
+
+
+
+\### Database Server Network
+
+
+
+The Database Server network contains protected backend data services.
+
+
+
+Direct access from ordinary client networks is prohibited.
+
+
+
+Database access should be limited to explicitly authorized application servers and administrative systems.
+
+
+
+Separating application and database systems into different network segments allows routing and access-control policies to enforce this boundary.
 
 
 
@@ -377,6 +402,32 @@ Guest devices retain access to:
 \- Public DMZ services
 
 \- Future Internet connectivity
+
+
+
+\### Application and Database Segmentation
+
+
+
+Application and database services were originally located within the same server VLAN.
+
+
+
+Security validation identified that hosts within the same Layer-2 network could communicate without passing through the router access-control boundary.
+
+
+
+The architecture was revised to separate these systems:
+
+
+
+\- VLAN 50 - Application Servers
+
+\- VLAN 55 - Database Servers
+
+
+
+The database server is now isolated from ordinary POS and technician systems, while authorized application-server communication remains functional.
 
 
 
